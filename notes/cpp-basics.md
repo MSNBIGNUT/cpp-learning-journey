@@ -1,5 +1,9 @@
 # C++ 学习笔记
 
+**最后更新:** 2026-03-24
+
+---
+
 ## 基础语法
 
 ### 变量与数据类型
@@ -146,7 +150,128 @@ auto add = [](int a, int b) {
 
 ---
 
-_持续更新中..._
+## 函数深入（2026-03-24）
+
+### 参数传递方式
+
+**值传递**（复制，不影响原值）:
+```cpp
+void byValue(int x) { x = 100; }  // 原值不变
+```
+
+**引用传递**（C++11 推荐，影响原值）:
+```cpp
+void byReference(int& x) { x = 100; }  // 原值改变
+```
+
+**常量引用**（避免复制，不修改）:
+```cpp
+void byConstRef(const std::string& str) { 
+    // 不能修改 str，高效
+}
+```
+
+**指针传递**:
+```cpp
+void byPointer(int* x) { *x = 100; }
+```
+
+### 函数模板
+
+```cpp
+template<typename T>
+T add(T a, T b) {
+    return a + b;
+}
+
+// 使用
+add(1, 2);        // int
+add(1.5, 2.5);    // double
+```
+
+---
+
+## 面向对象基础（2026-03-24）
+
+### 类的定义
+
+```cpp
+class Person {
+private:
+    std::string name;
+    int age;
+    
+public:
+    // 构造函数（初始化列表）
+    Person(std::string n, int a) : name(n), age(a) {}
+    
+    // 成员函数
+    void introduce() const {
+        std::cout << "Hi, I'm " << name << ", " << age << " years old.\n";
+    }
+    
+    // Getter/Setter
+    std::string getName() const { return name; }
+    void setAge(int a) { age = a; }
+    
+    // 析构函数
+    ~Person() {
+        // 清理资源
+    }
+};
+```
+
+### 继承
+
+```cpp
+class Student : public Person {
+private:
+    std::string studentId;
+    
+public:
+    Student(std::string n, int a, std::string id) 
+        : Person(n, a), studentId(id) {}
+    
+    void study() const {
+        std::cout << getName() << " is studying.\n";
+    }
+};
+```
+
+### 访问控制
+
+- `public` - 公开访问
+- `private` - 仅类内部访问
+- `protected` - 类和子类可访问
+
+### 特殊成员函数
+
+1. **默认构造函数** - 无参数
+2. **拷贝构造函数** - `ClassName(const ClassName& other)`
+3. **拷贝赋值运算符** - `operator=`
+4. **移动构造函数**（C++11）- `ClassName(ClassName&& other)`
+5. **移动赋值运算符**（C++11）
+6. **析构函数** - `~ClassName()`
+
+### 实践示例：Rectangle 类
+
+```cpp
+class Rectangle {
+private:
+    double width, height;
+
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+    
+    double getArea() const { return width * height; }
+    double getPerimeter() const { return 2 * (width + height); }
+    
+    void scale(double factor) {
+        width *= factor;
+        height *= factor;
+    }
+};
+```
 
 ---
 
